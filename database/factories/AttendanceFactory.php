@@ -2,12 +2,13 @@
 
 namespace Ianvizarra\Attendance\Database\Factories;
 
+use Ianvizarra\Attendance\Attendance;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/*
-class ModelFactory extends Factory
+
+class AttendanceFactory extends Factory
 {
-    protected $model = YourModel::class;
+    protected $model = Attendance::class;
 
     public function definition()
     {
@@ -16,4 +17,3 @@ class ModelFactory extends Factory
         ];
     }
 }
-*/

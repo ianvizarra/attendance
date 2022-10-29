@@ -4,7 +4,6 @@ namespace Ianvizarra\Attendance;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Ianvizarra\Attendance\Commands\AttendanceCommand;
 
 class AttendanceServiceProvider extends PackageServiceProvider
 {
@@ -18,8 +17,6 @@ class AttendanceServiceProvider extends PackageServiceProvider
         $package
             ->name('attendance')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_attendance_table')
-            ->hasCommand(AttendanceCommand::class);
+            ->hasMigration('create_attendance_table');
     }
 }
