@@ -17,6 +17,6 @@ class AttendanceServiceProvider extends PackageServiceProvider
         $package
             ->name('attendance')
             ->hasConfigFile()
-            ->hasMigration('create_attendance_table');
+            ->hasMigration('create_attendance_logs_table');
     }
 }
