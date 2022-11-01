@@ -20,7 +20,7 @@ class AttendanceLogFactory extends Factory
 
     public function in()
     {
-        return $this->state(function() {
+        return $this->state(function () {
             return [
                 'type' => 'time'
             ];
@@ -29,7 +29,7 @@ class AttendanceLogFactory extends Factory
 
     public function ontime()
     {
-        return $this->state(function() {
+        return $this->state(function () {
             return [
                 'status' => 'on-time'
             ];
@@ -38,7 +38,7 @@ class AttendanceLogFactory extends Factory
 
     public function out()
     {
-        return $this->state(function() {
+        return $this->state(function () {
             return [
                 'type' => 'out',
                 'minutes_rendered' => 480

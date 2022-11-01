@@ -1,4 +1,5 @@
 <?php
+
 namespace Ianvizarra\Attendance\Traits;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
