@@ -2,9 +2,8 @@
 
 namespace Ianvizarra\Attendance\Database\Factories;
 
-use Ianvizarra\Attendance\AttendanceLog;
+use Ianvizarra\Attendance\Models\AttendanceLog;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
 
 class AttendanceLogFactory extends Factory
 {

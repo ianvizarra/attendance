@@ -1,6 +1,6 @@
 <?php
 
-namespace Ianvizarra\Attendance;
+namespace Ianvizarra\Attendance\Models;
 
 use Ianvizarra\Attendance\Database\Factories\AttendanceLogFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -30,6 +30,7 @@ class AttendanceLog extends Model
         parent::__construct($attributes);
         $this->table = Config::get('attendance.log_table');
     }
+
 
     protected static function newFactory()
     {
