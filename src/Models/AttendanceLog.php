@@ -20,6 +20,7 @@ class AttendanceLog extends Model
      */
     protected $fillable = ['status', 'type', 'user_id', 'minutes_rendered'];
 
+    protected $dates = ['created_at'];
     /**
      * Creates a new instance of the model.
      *
