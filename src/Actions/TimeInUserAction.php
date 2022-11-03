@@ -24,11 +24,11 @@ class TimeInUserAction
      */
     public function __invoke(CanLogAttendance $user, Carbon $time = null, array $scheduleConfig = null): void
     {
-        if ($user->hasTimeIn()) {
+        if ($user->hasTimeIn($time)) {
             throw new AlreadyTimeInException();
         }
 
-        if ($user->hasTimeIn()) {
+        if ($user->hasTimeIn($time)) {
             throw new AlreadyTimeInException();
         }
 
