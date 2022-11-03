@@ -40,12 +40,12 @@ class Attendance
 
     public function getUserTimeInToday(): null|Carbon
     {
-        return $this->getUser()?->getTimeInToday()?->created_at;
+        return $this->getUser()?->getTimeIn()?->created_at;
     }
 
     public function schedule(array $scheduleConfig = null): ScheduleObject
     {
-        $schedule = $scheduleConfig ?? config('attendance.schedule.hours');
+        $schedule = $scheduleConfig ?? config('attendance.schedule');
         return new ScheduleObject(...$schedule);
     }
 
@@ -62,6 +62,20 @@ class Attendance
     public function log(AttendanceLogDto $attendanceLogDto): void
     {
         app(LogUserAttendanceAction::class)($attendanceLogDto);
+    }
+
+    public function isWorkDay(Carbon $time = null, array $scheduleConfig = null): bool
+    {
+        $time = $time ?? now();
+        $schedule = $this->schedule($scheduleConfig);
+        return in_array($time->dayName, $schedule->workDays);
+    }
+
+    public function isOffDay(Carbon $time = null, array $scheduleConfig = null): bool
+    {
+        $time = $time ?? now();
+        $schedule = $this->schedule($scheduleConfig);
+        return in_array($time->dayName, $schedule->offDays);
     }
 
     //TODO: check for workday

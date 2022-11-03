@@ -139,4 +139,39 @@ class AttendanceTest extends TestCase
             'type' => 'in'
         ]);
     }
+
+    public function test_it_should_check_work_day()
+    {
+        $this->travelTo(now()->setMonth(11)->setDay(2)->setYear(2022));
+        $this->assertTrue(Attendance::isWorkDay());
+    }
+
+    public function test_it_should_check_work_day_with_custom_config()
+    {
+        $this->travelTo(now()->setMonth(11)->setDay(6)->setYear(2022)); // Sunday
+        $this->assertTrue(Attendance::isWorkDay(now(), [
+            'timeIn' => 8,
+            'timeOut' => 16,
+            'requiredDailyHours' => 8,
+            'workDays' => [
+                'Saturday',
+                'Sunday',
+            ]
+        ]));
+    }
+
+    public function test_it_should_not_time_in_if_off_day()
+    {
+        $user = $this->newUser();
+        auth()->login($user);
+        $this->travelTo(now()->setMonth(11)->setDay(6)->setYear(2022)); // Sunday
+        $this->expectExceptionMessage("It's your day-off");
+        Attendance::timeIn(now());
+    }
+
+    public function test_it_should_check_off_day()
+    {
+        $this->travelTo(now()->setMonth(11)->setDay(6));
+        $this->assertTrue(Attendance::isOffDay());
+    }
 }

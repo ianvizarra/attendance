@@ -34,20 +34,19 @@ This is the contents of the published config file:
 return [
   'logs_table' => 'attendance_logs',
     'schedule' => [
-        'hours' => [
-            'timeIn' => 9,
-            'timeOut' => 17,
-            'requiredDailyHours' => 8,
-            'timeInAllowance' => 30, // minutes
-        ],
-        'work_days' => [ //Soon
+        'timeIn' => 9,
+        'timeOut' => 17,
+        'requiredDailyHours' => 8,
+        'timeInAllowance' => 30, // minutes
+        
+        'workDays' => [
             'Monday',
             'Tuesday',
             'Wednesday',
             'Thursday',
             'Friday'
         ],
-        'off_days' => [ //Soon
+        'offDays' => [
             'Saturday',
             'Sunday'
         ]
@@ -76,10 +75,10 @@ $user->timeIn(); // create an time-in attendance log entry
 
 $user->timeOut(); // create an time-out attendance log entry
 
-$user->hasTimeInToday(); // return true if user already time-in for today
-$user->hasTimeOutToday(); // return true if user already time-out for today
-$user->hasWorkedToday(); // return true if user already time-in and time-out for today
-$user->getTimeInToday(); // return the time-in attendance log for today
+$user->hasTimeIn(); // return true if user already time-in for today
+$user->hasTimeOut(); // return true if user already time-out for today
+$user->hasWorked(); // return true if user already time-in and time-out for today
+$user->getTimeIn(); // return the time-in attendance log for today
 
 $user->logAttendance('in', 'on-time', now()); // manually log an attendance by type, status and time
 ```

@@ -4,20 +4,18 @@
 return [
     'logs_table' => 'attendance_logs',
     'schedule' => [
-        'hours' => [
-            'timeIn' => 9,
-            'timeOut' => 17,
-            'requiredDailyHours' => 8,
-            'timeInAllowance' => 30, // minutes
-        ],
-        'work_days' =>[
+        'timeIn' => 9,
+        'timeOut' => 17,
+        'requiredDailyHours' => 8,
+        'timeInAllowance' => 30, // minutes
+        'workDays' =>[
             'Monday',
             'Tuesday',
             'Wednesday',
             'Thursday',
             'Friday'
         ],
-        'off_days' => [
+        'offDays' => [
             'Saturday',
             'Sunday'
         ]

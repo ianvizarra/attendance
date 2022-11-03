@@ -31,26 +31,26 @@ class HasAttendanceTraitsTest extends TestCase
         $user = $this->newUser();
         AttendanceLog::factory()->timeIn()->create(['user_id' => $user->id, 'created_at' => now()->setHour(9)->setMinute(0)]);
         AttendanceLog::factory()->timeOut()->create(['user_id' => $user->id, 'created_at' => now()->setHour(17)->setMinute(0)]);
-        $this->assertTrue($user->hasWorkedToday());
+        $this->assertTrue($user->hasWorked());
     }
 
     public function test_user_has_time_in_only_today()
     {
         $user = $this->newUser();
         AttendanceLog::factory()->timeIn()->thisMorning()->create(['user_id' => $user->id]);
-        $this->assertFalse($user->hasWorkedToday());
+        $this->assertFalse($user->hasWorked());
     }
 
     public function test_user_has_time_in_today()
     {
         $user = $this->newUser();
         AttendanceLog::factory()->timeIn()->create(['user_id' => $user, 'created_at' => now()->setHour(9)->setMinute(0)]);
-        $this->assertTrue($user->hasTimeInToday());
+        $this->assertTrue($user->hasTimeIn());
     }
 
     public function test_user_has_not_time_in_today()
     {
-        $this->assertFalse($this->newUser()->hasTimeInToday());
+        $this->assertFalse($this->newUser()->hasTimeIn());
     }
 
     public function test_user_has_time_out_today()
@@ -58,13 +58,13 @@ class HasAttendanceTraitsTest extends TestCase
         $user = $this->newUser();
         AttendanceLog::factory()->timeIn()->create(['user_id' => $user, 'created_at' => now()->setHour(9)->setMinute(0)]);
         AttendanceLog::factory()->timeOut()->create(['user_id' => $user, 'created_at' => now()->setHour(17)->setMinute(0)]);
-        $this->assertTrue($user->hasTimeOutToday());
+        $this->assertTrue($user->hasTimeOut());
     }
 
     public function test_user_has_not_time_out_today()
     {
         $user = $this->newUser();
         AttendanceLog::factory()->timeIn()->thisMorning()->create(['user_id' => $user]);
-        $this->assertFalse($user->hasTimeOutToday());
+        $this->assertFalse($user->hasTimeOut());
     }
 }

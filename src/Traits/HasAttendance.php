@@ -2,46 +2,48 @@
 
 namespace Ianvizarra\Attendance\Traits;
 
-use Ianvizarra\Attendance\Actions\LogUserAttendanceAction;
 use Ianvizarra\Attendance\DataTransferObjects\AttendanceLogDto;
+use Ianvizarra\Attendance\Actions\LogUserAttendanceAction;
 use Ianvizarra\Attendance\Enums\AttendanceStatusEnum;
 use Ianvizarra\Attendance\Enums\AttendanceTypeEnum;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Ianvizarra\Attendance\Models\AttendanceLog;
+use Ianvizarra\Attendance\Facades\Attendance;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 trait HasAttendance
 {
     public function attendance(): HasMany
     {
-        return $this->hasMany(\Ianvizarra\Attendance\Models\AttendanceLog::class);
+        return $this->hasMany(AttendanceLog::class);
     }
 
-    public function hasTimeInToday(): bool
+    public function hasTimeIn(Carbon $time = null): bool
     {
         return $this->attendance()
-            ->where('date', now()->toDateString())
+            ->where('date', $time ? $time->toDateString() : now()->toDateString())
             ->where('type', AttendanceTypeEnum::in())
             ->exists();
     }
 
-    public function hasTimeOutToday(): bool
+    public function hasTimeOut(Carbon $time = null): bool
     {
         return $this->attendance()
-            ->where('date', now()->toDateString())
+            ->where('date', $time ? $time->toDateString() : now()->toDateString())
             ->where('type', AttendanceTypeEnum::out())
             ->exists();
     }
 
-    public function hasWorkedToday(): bool
+    public function hasWorked(Carbon $time = null): bool
     {
-        return $this->hasTimeInToday() && $this->hasTimeOutToday();
+        return $this->hasTimeIn($time) && $this->hasTimeOut($time);
     }
 
-    public function getTimeInToday(): ?Model
+    public function getTimeIn(Carbon $time = null): ?Model
     {
         return $this->attendance()
-            ->where('date', now()->toDateString())
+            ->where('date', $time ? $time->toDateString() : now()->toDateString())
             ->where('type', AttendanceTypeEnum::in())
             ->first();
     }
@@ -54,5 +56,15 @@ trait HasAttendance
             status: new AttendanceStatusEnum($status),
             time: $time ?? new Carbon()
         ));
+    }
+
+    public function isOffDay(Carbon $time = null, $scheduleConfig = null): bool
+    {
+        return Attendance::isOffDay($time, $scheduleConfig);
+    }
+
+    public function isWorkDay(Carbon $time = null, $scheduleConfig = null): bool
+    {
+        return Attendance::isWorkDay($time, $scheduleConfig);
     }
 }

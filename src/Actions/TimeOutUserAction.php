@@ -25,11 +25,11 @@ class TimeOutUserAction
      */
     public function __invoke(CanLogAttendance $user, Carbon $time = null, array $scheduleConfig = null): void
     {
-        if (! $user->hasTimeInToday()) {
+        if (! $user->hasTimeIn()) {
             throw new NoTimeInException();
         }
 
-        if ($user->hasTimeOutToday()) {
+        if ($user->hasTimeOut()) {
             throw new AlreadyTimeOutException();
         }
 

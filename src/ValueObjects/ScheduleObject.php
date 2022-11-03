@@ -9,6 +9,8 @@ final class ScheduleObject
         public int $timeOut,
         public int $requiredDailyHours,
         public ?int $timeInAllowance = 0,
+        public ?array $workDays = [],
+        public ?array $offDays = [],
     ) {
     }
 }
