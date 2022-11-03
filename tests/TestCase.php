@@ -4,16 +4,19 @@ namespace Ianvizarra\Attendance\Tests;
 
 use Dotenv\Dotenv;
 use Ianvizarra\Attendance\AttendanceServiceProvider;
+use Ianvizarra\Attendance\Contracts\CanLogAttendance;
 use Ianvizarra\Attendance\Facades\Attendance;
 use Ianvizarra\Attendance\Tests\Support\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
     use DatabaseTransactions;
+    use WithFaker;
 
-    protected $user;
+    protected CanLogAttendance $user;
 
     public function setUp(): void
     {
@@ -33,6 +36,15 @@ abstract class TestCase extends Orchestra
         $this->user = new User();
         $this->user->name = 'Ian';
         $this->user->save();
+    }
+
+    public function newUser(): User
+    {
+        $user = new User();
+        $user->name = $this->faker()->name();
+        $user->save();
+
+        return $user;
     }
 
     /**

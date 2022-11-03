@@ -20,12 +20,12 @@ class Attendance
     /**
      * Get the currently authenticated user or null.
      */
-    public function getAuthUser(): CanLogAttendance
+    public function getAuthUser(): null|CanLogAttendance
     {
         return $this->app->auth->user();
     }
 
-    public function getUser(): CanLogAttendance
+    public function getUser(): null|CanLogAttendance
     {
         return $this->user ?? $this->getAuthUser();
     }
@@ -35,9 +35,14 @@ class Attendance
         $this->user = $user;
     }
 
+    public function getUserTimeInToday(): null|Carbon
+    {
+        return $this->getUser()?->getTimeInToday()?->created_at;
+    }
+
     public function schedule(): ScheduleObject
     {
-        return new ScheduleObject(...config('attendance.schedule.statuses'));
+        return new ScheduleObject(...config('attendance.schedule.hours'));
     }
 
     public function timeIn(Carbon $time = null): void
@@ -65,5 +70,22 @@ class Attendance
         }
 
         return AttendanceStatusEnum::late();
+    }
+
+    public function timeOutStatus(Carbon $time = null): string
+    {
+        $timeOutSchedule = now()->setHour($this->schedule()->timeOut);
+        $timeOut = $time ?? now();
+
+        if ($this->getUserTimeInToday() &&
+            $this->getUserTimeInToday()->diffInMinutes($timeOut) < 60 * $this->schedule()->requiredDailyHours) {
+            return AttendanceStatusEnum::underTime();
+        }
+
+        if ($timeOut->gte($timeOutSchedule)) {
+            return AttendanceStatusEnum::onTime();
+        }
+
+        return AttendanceStatusEnum::underTime();
     }
 }

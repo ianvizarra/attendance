@@ -20,11 +20,76 @@ class AttendanceLogFactory extends Factory
         ];
     }
 
-    public function in()
+    public function timeIn()
     {
         return $this->state(function () {
             return [
                 'type' => 'in'
+            ];
+        });
+    }
+
+    public function thisMorning()
+    {
+        return $this->state(function () {
+            $now = now();
+            return [
+                'type' => 'in',
+                'created_at' => $now->setHour(9)->setMinute(0),
+                'date' => $now->toDateString(),
+                'time' => $now->toTimeString()
+            ];
+        });
+    }
+
+    public function thisEvening()
+    {
+        return $this->state(function () {
+            $now = now();
+            return [
+                'type' => 'in',
+                'created_at' => $now->setHour(17)->setMinute(0),
+                'date' => $now->toDateString(),
+                'time' => $now->toTimeString()
+            ];
+        });
+    }
+
+    public function lateThisMorning()
+    {
+        return $this->state(function () {
+            $now = now();
+            return [
+                'type' => 'in',
+                'created_at' => $now->setHour(9)->setMinute(31),
+                'date' => $now->toDateString(),
+                'time' => $now->toTimeString()
+            ];
+        });
+    }
+
+    public function yesterdayMorning()
+    {
+        return $this->state(function () {
+            $yesterday = now()->subDay();
+            return [
+                'type' => 'in',
+                'created_at' => $yesterday->setHour(9)->setMinute(0),
+                'date' => $yesterday->toDateString(),
+                'time' => $yesterday->toTimeString()
+            ];
+        });
+    }
+
+    public function yesterdayEvening()
+    {
+        return $this->state(function () {
+            $yesterday = now()->subDay();
+            return [
+                'type' => 'in',
+                'created_at' => $yesterday->setHour(17)->setMinute(0),
+                'date' => $yesterday->toDateString(),
+                'time' => $yesterday->toTimeString()
             ];
         });
     }
@@ -47,7 +112,7 @@ class AttendanceLogFactory extends Factory
         });
     }
 
-    public function out()
+    public function timeOut()
     {
         return $this->state(function () {
             return [
