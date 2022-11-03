@@ -127,4 +127,16 @@ class AttendanceTest extends TestCase
             'type' => 'out'
         ]);
     }
+
+    public function test_it_should_set_user()
+    {
+        $user = $this->newUser();
+        $this->travelTo(now()->setHour(9)->setMinute(0));
+        Attendance::setUser($user)->timeIn();
+        $this->assertDatabaseHas('attendance_logs', [
+            'user_id' => $user->id,
+            'status'=> 'on-time',
+            'type' => 'in'
+        ]);
+    }
 }

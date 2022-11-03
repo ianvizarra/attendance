@@ -34,6 +34,8 @@ class Attendance
     public function setUser(CanLogAttendance $user)
     {
         $this->user = $user;
+
+        return $this;
     }
 
     public function getUserTimeInToday(): null|Carbon
