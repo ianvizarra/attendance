@@ -8,7 +8,7 @@ final class ScheduleObject
         public int $timeIn,
         public int $timeOut,
         public int $requiredDailyHours,
-        public int $timeInAllowance,
+        public ?int $timeInAllowance = 0,
     ) {
     }
 }

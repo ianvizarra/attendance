@@ -4,6 +4,7 @@ namespace Ianvizarra\Attendance;
 
 use Ianvizarra\Attendance\Actions\LogUserAttendanceAction;
 use Ianvizarra\Attendance\Actions\TimeInUserAction;
+use Ianvizarra\Attendance\Actions\TimeOutUserAction;
 use Ianvizarra\Attendance\Contracts\CanLogAttendance;
 use Ianvizarra\Attendance\DataTransferObjects\AttendanceLogDto;
 use Ianvizarra\Attendance\Enums\AttendanceStatusEnum;
@@ -40,19 +41,20 @@ class Attendance
         return $this->getUser()?->getTimeInToday()?->created_at;
     }
 
-    public function schedule(): ScheduleObject
+    public function schedule(array $scheduleConfig = null): ScheduleObject
     {
-        return new ScheduleObject(...config('attendance.schedule.hours'));
+        $schedule = $scheduleConfig ?? config('attendance.schedule.hours');
+        return new ScheduleObject(...$schedule);
     }
 
-    public function timeIn(Carbon $time = null): void
+    public function timeIn(Carbon $time = null, array $scheduleConfig = null): void
     {
-        app(TimeInUserAction::class)($this->getUser(), $time);
+        app(TimeInUserAction::class)($this->getUser(), $time, $scheduleConfig);
     }
 
-    public function timeOut()
+    public function timeOut(Carbon $time = null, array $scheduleConfig = null): void
     {
-        //TODO: implement method
+        app(TimeOutUserAction::class)($this->getUser(), $time, $scheduleConfig);
     }
 
     public function log(AttendanceLogDto $attendanceLogDto): void
@@ -61,9 +63,9 @@ class Attendance
     }
 
     //TODO: check for workday
-    public function timeInStatus(Carbon $time = null): string
+    public function timeInStatus(Carbon $time = null, array $scheduleConfig = null): string
     {
-        $timeInSchedule = now()->setHour($this->schedule()->timeIn)->setMinute($this->schedule()->timeInAllowance);
+        $timeInSchedule = now()->setHour($this->schedule($scheduleConfig)->timeIn)->setMinute($this->schedule($scheduleConfig)->timeInAllowance);
         $timeIn = $time ?? now();
         if ($timeIn->lte($timeInSchedule)) {
             return AttendanceStatusEnum::onTime();
@@ -72,13 +74,13 @@ class Attendance
         return AttendanceStatusEnum::late();
     }
 
-    public function timeOutStatus(Carbon $time = null): string
+    public function timeOutStatus(Carbon $time = null, array $scheduleConfig = null): string
     {
-        $timeOutSchedule = now()->setHour($this->schedule()->timeOut);
+        $timeOutSchedule = now()->setHour($this->schedule($scheduleConfig)->timeOut);
         $timeOut = $time ?? now();
 
         if ($this->getUserTimeInToday() &&
-            $this->getUserTimeInToday()->diffInMinutes($timeOut) < 60 * $this->schedule()->requiredDailyHours) {
+            $this->getUserTimeInToday()->diffInMinutes($timeOut) < 60 * $this->schedule($scheduleConfig)->requiredDailyHours) {
             return AttendanceStatusEnum::underTime();
         }
 

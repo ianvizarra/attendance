@@ -7,6 +7,14 @@ use Ianvizarra\Attendance\Tests\TestCase;
 
 class HasAttendanceTraitsTest extends TestCase
 {
+    public function test_user_has_attendance_logs()
+    {
+        $user = $this->newUser();
+        AttendanceLog::factory()->timeIn()->create(['user_id' => $user->id]);
+        AttendanceLog::factory()->timeOut()->create(['user_id' => $user->id]);
+        $this->assertCount(2, $user->attendance);
+    }
+
     public function test_user_can_time_in()
     {
         $user = $this->newUser();

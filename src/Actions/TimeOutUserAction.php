@@ -23,7 +23,7 @@ class TimeOutUserAction
      * @param ?Carbon $time
      * @throws AlreadyTimeInException
      */
-    public function __invoke(CanLogAttendance $user, Carbon $time = null): void
+    public function __invoke(CanLogAttendance $user, Carbon $time = null, array $scheduleConfig = null): void
     {
         if (! $user->hasTimeInToday()) {
             throw new NoTimeInException();
@@ -33,7 +33,7 @@ class TimeOutUserAction
             throw new AlreadyTimeOutException();
         }
 
-        $status = Attendance::timeOutStatus();
+        $status = Attendance::timeOutStatus($time, $scheduleConfig);
 
         ($this->logUserAttendanceAction)(new AttendanceLogDto(
             user: $user,

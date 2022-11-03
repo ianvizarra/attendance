@@ -29,13 +29,13 @@ class AttendanceLogFactory extends Factory
         });
     }
 
-    public function thisMorning()
+    public function thisMorning($hour = 9, $min = 0)
     {
-        return $this->state(function () {
+        return $this->state(function () use ($hour, $min) {
             $now = now();
             return [
                 'type' => 'in',
-                'created_at' => $now->setHour(9)->setMinute(0),
+                'created_at' => $now->setHour($hour)->setMinute($min),
                 'date' => $now->toDateString(),
                 'time' => $now->toTimeString()
             ];
@@ -55,13 +55,13 @@ class AttendanceLogFactory extends Factory
         });
     }
 
-    public function lateThisMorning()
+    public function lateThisMorning($hour = 9, $min = 31)
     {
-        return $this->state(function () {
+        return $this->state(function () use ($hour, $min) {
             $now = now();
             return [
                 'type' => 'in',
-                'created_at' => $now->setHour(9)->setMinute(31),
+                'created_at' => $now->setHour($hour)->setMinute($min),
                 'date' => $now->toDateString(),
                 'time' => $now->toTimeString()
             ];
