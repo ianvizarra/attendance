@@ -2,14 +2,14 @@
 
 namespace Ianvizarra\Attendance;
 
+use Ianvizarra\Attendance\Contracts\CanLogAttendance;
+use Ianvizarra\Attendance\Enums\AttendanceStatusEnum;
+use Ianvizarra\Attendance\ValueObjects\ScheduleObject;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Carbon;
 
 class Attendance
 {
-    public const LATE = 'late';
-    public const ON_TIME = 'on-time';
-
     public function __construct(public Application $app)
     {
     }
@@ -17,9 +17,24 @@ class Attendance
     /**
      * Get the currently authenticated user or null.
      */
-    public function user()
+    public function getAuthUser(): CanLogAttendance
     {
         return $this->app->auth->user();
+    }
+
+    public function getUser(): CanLogAttendance
+    {
+        return $this->user;
+    }
+
+    public function setUser(CanLogAttendance $user)
+    {
+        $this->user = $user;
+    }
+
+    public function schedule(): ScheduleObject
+    {
+        return new ScheduleObject(...config('attendance.schedule.statuses'));
     }
 
     public function timeIn()
@@ -37,21 +52,14 @@ class Attendance
     }
 
     //TODO: check for workday
-    public function timeInStatus(Carbon $time): string
+    public function timeInStatus(Carbon $time = null): string
     {
-        $schedule = config('attendance.schedule');
-
-        $timeIn = now()->setHour($schedule['time_in'])->setMinute($schedule['time_in_allowance']);
-
-        if ($time->lte($timeIn)) {
-            return self::ON_TIME;
+        $timeInSchedule = now()->setHour($this->schedule()->timeIn)->setMinute($this->schedule()->timeInAllowance);
+        $timeIn = $time ?? now();
+        if ($timeIn->lte($timeInSchedule)) {
+            return AttendanceStatusEnum::onTime();
         }
 
-        return self::LATE;
-    }
-
-    public function timeInStatusNow(): String
-    {
-        return $this->timeInStatus(now());
+        return AttendanceStatusEnum::late();
     }
 }

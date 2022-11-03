@@ -8,47 +8,11 @@ use Ianvizarra\Attendance\Tests\TestCase;
 
 class AttendanceTest extends TestCase
 {
-    protected $user;
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     *
-     * @return void
-     */
-    protected function getEnvironmentSetUp($app)
-    {
-        $app['config']->set('attendance.user_model', 'User');
-
-        \Schema::create('users', function ($table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
-        \Schema::create('tasks', function ($table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->integer('team_id');
-            $table->timestamps();
-        });
-    }
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = new User();
-        $this->user->name = 'Ian';
-        $this->user->save();
-    }
-
     public function test_it_can_check_time_in_status()
     {
         auth()->login($this->user);
-        $this->travelTo(now()->setHour(9));
-        $status = Attendance::timeInStatusNow();
+        $this->travelTo(now()->setHour(9)->setMinute(0));
+        $status = Attendance::timeInStatus();
         $this->assertEquals('on-time', $status);
     }
 
@@ -56,7 +20,7 @@ class AttendanceTest extends TestCase
     {
         auth()->login($this->user);
         $this->travelTo(now()->setHour(9)->setMinute(32));
-        $status = Attendance::timeInStatusNow();
+        $status = Attendance::timeInStatus();
         $this->assertEquals('late', $status);
     }
 }

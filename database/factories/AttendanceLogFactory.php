@@ -22,7 +22,7 @@ class AttendanceLogFactory extends Factory
     {
         return $this->state(function () {
             return [
-                'type' => 'time'
+                'type' => 'in'
             ];
         });
     }
@@ -32,6 +32,15 @@ class AttendanceLogFactory extends Factory
         return $this->state(function () {
             return [
                 'status' => 'on-time'
+            ];
+        });
+    }
+
+    public function late()
+    {
+        return $this->state(function () {
+            return [
+                'status' => 'late'
             ];
         });
     }

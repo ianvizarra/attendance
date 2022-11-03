@@ -3,11 +3,13 @@
 namespace Ianvizarra\Attendance\Models;
 
 use Ianvizarra\Attendance\Database\Factories\AttendanceLogFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 
 class AttendanceLog extends Model
 {
+    use HasFactory;
     /**
      * The database table used by the model.
      *

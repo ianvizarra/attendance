@@ -2,6 +2,10 @@
 
 namespace Ianvizarra\Attendance\Traits;
 
+use Ianvizarra\Attendance\Actions\LogUserAttendanceAction;
+use Ianvizarra\Attendance\DataTransferObjects\AttendanceLogDto;
+use Ianvizarra\Attendance\Enums\AttendanceStatusEnum;
+use Ianvizarra\Attendance\Enums\AttendanceTypeEnum;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
@@ -12,15 +16,21 @@ trait HasAttendance
         return $this->hasMany(\Ianvizarra\Attendance\Models\AttendanceLog::class);
     }
 
-    public function logAttendance($type, Carbon $time = null)
+    public function hasTimeInToday(): bool
     {
-        //TODO: check type
-        //TODO: get schedule
-        //TODO: check status
-        $this->attendance()->create([
-            'type'  => $type,
-            'created_at' => $time ?? Carbon::now(),
-            'status' => 'on-time'
-        ]);
+        return $this->attendance()
+            ->whereDate('created_at', now()->toDateString())
+            ->where('type', AttendanceTypeEnum::in())
+            ->exists();
+    }
+
+    public function logAttendance($type, $status = 'on-time', Carbon $time = null)
+    {
+        app(LogUserAttendanceAction::class)(new AttendanceLogDto(
+            user: $this,
+            type: new AttendanceTypeEnum($type),
+            status: new AttendanceStatusEnum($status),
+            time: $time ?? new Carbon()
+        ));
     }
 }
