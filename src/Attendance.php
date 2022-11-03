@@ -2,7 +2,10 @@
 
 namespace Ianvizarra\Attendance;
 
+use Ianvizarra\Attendance\Actions\LogUserAttendanceAction;
+use Ianvizarra\Attendance\Actions\TimeInUserAction;
 use Ianvizarra\Attendance\Contracts\CanLogAttendance;
+use Ianvizarra\Attendance\DataTransferObjects\AttendanceLogDto;
 use Ianvizarra\Attendance\Enums\AttendanceStatusEnum;
 use Ianvizarra\Attendance\ValueObjects\ScheduleObject;
 use Illuminate\Foundation\Application;
@@ -24,7 +27,7 @@ class Attendance
 
     public function getUser(): CanLogAttendance
     {
-        return $this->user;
+        return $this->user ?? $this->getAuthUser();
     }
 
     public function setUser(CanLogAttendance $user)
@@ -37,9 +40,9 @@ class Attendance
         return new ScheduleObject(...config('attendance.schedule.statuses'));
     }
 
-    public function timeIn()
+    public function timeIn(Carbon $time = null): void
     {
-        //TODO: implement method
+        app(TimeInUserAction::class)($this->getUser(), $time);
     }
 
     public function timeOut()
@@ -47,8 +50,9 @@ class Attendance
         //TODO: implement method
     }
 
-    public function log($type, $data)
+    public function log(AttendanceLogDto $attendanceLogDto): void
     {
+        app(LogUserAttendanceAction::class)($attendanceLogDto);
     }
 
     //TODO: check for workday
