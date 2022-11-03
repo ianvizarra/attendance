@@ -20,7 +20,7 @@ class AttendanceLog extends Model
     /**
      * @var array
      */
-    protected $fillable = ['status', 'type', 'user_id', 'minutes_rendered'];
+    protected $fillable = ['status', 'type', 'user_id', 'minutes_rendered', 'date', 'time'];
 
     protected $dates = ['created_at'];
     /**

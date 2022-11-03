@@ -14,7 +14,9 @@ class AttendanceLogFactory extends Factory
         return [
             'type' => 'in',
             'status' => 'on-time',
-            'created_at' => now()
+            'date' => now()->toDateString(),
+            'time' => now()->toTimeString(),
+            'created_at' => now(),
         ];
     }
 
