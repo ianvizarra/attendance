@@ -1,3 +1,4 @@
 # These are supported funding model platforms
 
-github: ianvizarra
+github: [ianvizarra]
+custom: ["https://www.paypal.me/ianvizarra"]
