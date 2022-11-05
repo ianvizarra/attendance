@@ -8,18 +8,18 @@ return [
         'timeOut' => 17,
         'requiredDailyHours' => 8,
         'timeInAllowance' => 30, // minutes
-        'workDays' =>[
+        'workDays' => [
             'Monday',
             'Tuesday',
             'Wednesday',
             'Thursday',
-            'Friday'
+            'Friday',
         ],
         'offDays' => [
             'Saturday',
-            'Sunday'
-        ]
+            'Sunday',
+        ],
     ],
     'user_model' => config('auth.providers.users.model', \App\Models\User::class),
-    'users_table' => 'users'
+    'users_table' => 'users',
 ];

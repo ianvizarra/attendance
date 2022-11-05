@@ -64,8 +64,8 @@ class AttendanceTest extends TestCase
         Attendance::timeIn();
         $this->assertDatabaseHas('attendance_logs', [
             'user_id' => $user->id,
-            'status'=> 'on-time',
-            'type' => 'in'
+            'status' => 'on-time',
+            'type' => 'in',
         ]);
     }
 
@@ -78,13 +78,13 @@ class AttendanceTest extends TestCase
         Attendance::timeIn(now(), [
             'timeIn' => 8,
             'timeOut' => 16,
-            'requiredDailyHours' => 8
+            'requiredDailyHours' => 8,
         ]);
 
         $this->assertDatabaseHas('attendance_logs', [
             'user_id' => $user->id,
-            'status'=> 'on-time',
-            'type' => 'in'
+            'status' => 'on-time',
+            'type' => 'in',
         ]);
     }
 
@@ -97,13 +97,13 @@ class AttendanceTest extends TestCase
         Attendance::timeIn(now(), [
             'timeIn' => 8,
             'timeOut' => 16,
-            'requiredDailyHours' => 8
+            'requiredDailyHours' => 8,
         ]);
 
         $this->assertDatabaseHas('attendance_logs', [
             'user_id' => $user->id,
-            'status'=> 'late',
-            'type' => 'in'
+            'status' => 'late',
+            'type' => 'in',
         ]);
     }
 
@@ -118,13 +118,13 @@ class AttendanceTest extends TestCase
         Attendance::timeOut(now(), [
             'timeIn' => 8,
             'timeOut' => 16,
-            'requiredDailyHours' => 8
+            'requiredDailyHours' => 8,
         ]);
 
         $this->assertDatabaseHas('attendance_logs', [
             'user_id' => $user->id,
-            'status'=> 'on-time',
-            'type' => 'out'
+            'status' => 'on-time',
+            'type' => 'out',
         ]);
     }
 
@@ -135,8 +135,8 @@ class AttendanceTest extends TestCase
         Attendance::setUser($user)->timeIn();
         $this->assertDatabaseHas('attendance_logs', [
             'user_id' => $user->id,
-            'status'=> 'on-time',
-            'type' => 'in'
+            'status' => 'on-time',
+            'type' => 'in',
         ]);
     }
 
@@ -156,7 +156,7 @@ class AttendanceTest extends TestCase
             'workDays' => [
                 'Saturday',
                 'Sunday',
-            ]
+            ],
         ]));
     }
 

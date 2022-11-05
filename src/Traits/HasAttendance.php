@@ -2,14 +2,14 @@
 
 namespace Ianvizarra\Attendance\Traits;
 
-use Ianvizarra\Attendance\DataTransferObjects\AttendanceLogDto;
 use Ianvizarra\Attendance\Actions\LogUserAttendanceAction;
+use Ianvizarra\Attendance\DataTransferObjects\AttendanceLogDto;
 use Ianvizarra\Attendance\Enums\AttendanceStatusEnum;
 use Ianvizarra\Attendance\Enums\AttendanceTypeEnum;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Ianvizarra\Attendance\Models\AttendanceLog;
 use Ianvizarra\Attendance\Facades\Attendance;
+use Ianvizarra\Attendance\Models\AttendanceLog;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 trait HasAttendance

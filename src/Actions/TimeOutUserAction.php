@@ -5,8 +5,8 @@ namespace Ianvizarra\Attendance\Actions;
 use Ianvizarra\Attendance\Contracts\CanLogAttendance;
 use Ianvizarra\Attendance\DataTransferObjects\AttendanceLogDto;
 use Ianvizarra\Attendance\Enums\AttendanceStatusEnum;
-use Ianvizarra\Attendance\Exceptions\AlreadyTimeInException;
 use Ianvizarra\Attendance\Enums\AttendanceTypeEnum;
+use Ianvizarra\Attendance\Exceptions\AlreadyTimeInException;
 use Ianvizarra\Attendance\Exceptions\AlreadyTimeOutException;
 use Ianvizarra\Attendance\Exceptions\NoTimeInException;
 use Ianvizarra\Attendance\Facades\Attendance;
@@ -19,8 +19,9 @@ class TimeOutUserAction
     }
 
     /**
-     * @param CanLogAttendance $user
-     * @param ?Carbon $time
+     * @param  CanLogAttendance  $user
+     * @param  ?Carbon  $time
+     *
      * @throws AlreadyTimeInException
      */
     public function __invoke(CanLogAttendance $user, Carbon $time = null, array $scheduleConfig = null): void

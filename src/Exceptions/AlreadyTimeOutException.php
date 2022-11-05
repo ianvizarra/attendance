@@ -8,7 +8,7 @@ use RuntimeException;
 class AlreadyTimeOutException extends RuntimeException
 {
     #[Pure]
-    public function __construct($message = "You have already time-out today.")
+    public function __construct($message = 'You have already time-out today.')
     {
         parent::__construct();
         $this->message = $message;

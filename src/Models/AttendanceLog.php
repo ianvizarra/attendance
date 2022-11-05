@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Config;
 class AttendanceLog extends Model
 {
     use HasFactory;
+
     /**
      * The database table used by the model.
      *
@@ -23,17 +24,17 @@ class AttendanceLog extends Model
     protected $fillable = ['status', 'type', 'user_id', 'minutes_rendered', 'date', 'time'];
 
     protected $dates = ['created_at'];
+
     /**
      * Creates a new instance of the model.
      *
-     * @param array $attributes
+     * @param  array  $attributes
      */
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
         $this->table = Config::get('attendance.log_table');
     }
-
 
     protected static function newFactory()
     {

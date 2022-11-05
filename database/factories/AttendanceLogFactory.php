@@ -24,7 +24,7 @@ class AttendanceLogFactory extends Factory
     {
         return $this->state(function () {
             return [
-                'type' => 'in'
+                'type' => 'in',
             ];
         });
     }
@@ -33,11 +33,12 @@ class AttendanceLogFactory extends Factory
     {
         return $this->state(function () use ($hour, $min) {
             $now = now();
+
             return [
                 'type' => 'in',
                 'created_at' => $now->setHour($hour)->setMinute($min),
                 'date' => $now->toDateString(),
-                'time' => $now->toTimeString()
+                'time' => $now->toTimeString(),
             ];
         });
     }
@@ -46,11 +47,12 @@ class AttendanceLogFactory extends Factory
     {
         return $this->state(function () {
             $now = now();
+
             return [
                 'type' => 'in',
                 'created_at' => $now->setHour(17)->setMinute(0),
                 'date' => $now->toDateString(),
-                'time' => $now->toTimeString()
+                'time' => $now->toTimeString(),
             ];
         });
     }
@@ -59,11 +61,12 @@ class AttendanceLogFactory extends Factory
     {
         return $this->state(function () use ($hour, $min) {
             $now = now();
+
             return [
                 'type' => 'in',
                 'created_at' => $now->setHour($hour)->setMinute($min),
                 'date' => $now->toDateString(),
-                'time' => $now->toTimeString()
+                'time' => $now->toTimeString(),
             ];
         });
     }
@@ -72,11 +75,12 @@ class AttendanceLogFactory extends Factory
     {
         return $this->state(function () {
             $yesterday = now()->subDay();
+
             return [
                 'type' => 'in',
                 'created_at' => $yesterday->setHour(9)->setMinute(0),
                 'date' => $yesterday->toDateString(),
-                'time' => $yesterday->toTimeString()
+                'time' => $yesterday->toTimeString(),
             ];
         });
     }
@@ -85,11 +89,12 @@ class AttendanceLogFactory extends Factory
     {
         return $this->state(function () {
             $yesterday = now()->subDay();
+
             return [
                 'type' => 'in',
                 'created_at' => $yesterday->setHour(17)->setMinute(0),
                 'date' => $yesterday->toDateString(),
-                'time' => $yesterday->toTimeString()
+                'time' => $yesterday->toTimeString(),
             ];
         });
     }
@@ -98,7 +103,7 @@ class AttendanceLogFactory extends Factory
     {
         return $this->state(function () {
             return [
-                'status' => 'on-time'
+                'status' => 'on-time',
             ];
         });
     }
@@ -107,7 +112,7 @@ class AttendanceLogFactory extends Factory
     {
         return $this->state(function () {
             return [
-                'status' => 'late'
+                'status' => 'late',
             ];
         });
     }
@@ -117,7 +122,7 @@ class AttendanceLogFactory extends Factory
         return $this->state(function () {
             return [
                 'type' => 'out',
-                'minutes_rendered' => 480
+                'minutes_rendered' => 480,
             ];
         });
     }

@@ -46,6 +46,7 @@ class Attendance
     public function schedule(array $scheduleConfig = null): ScheduleObject
     {
         $schedule = $scheduleConfig ?? config('attendance.schedule');
+
         return new ScheduleObject(...$schedule);
     }
 
@@ -68,6 +69,7 @@ class Attendance
     {
         $time = $time ?? now();
         $schedule = $this->schedule($scheduleConfig);
+
         return in_array($time->dayName, $schedule->workDays);
     }
 
@@ -75,6 +77,7 @@ class Attendance
     {
         $time = $time ?? now();
         $schedule = $this->schedule($scheduleConfig);
+
         return in_array($time->dayName, $schedule->offDays);
     }
 

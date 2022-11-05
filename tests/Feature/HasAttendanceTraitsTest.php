@@ -22,7 +22,7 @@ class HasAttendanceTraitsTest extends TestCase
 
         $this->assertDatabaseHas('attendance_logs', [
             'user_id' => $user->id,
-            'type' => 'in'
+            'type' => 'in',
         ]);
     }
 

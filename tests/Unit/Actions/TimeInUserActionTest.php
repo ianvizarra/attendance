@@ -15,8 +15,8 @@ class TimeInUserActionTest extends TestCase
         app(TimeInUserAction::class)($user);
         $this->assertDatabaseHas('attendance_logs', [
             'user_id' => $user->id,
-            'status'=> 'on-time',
-            'type' => 'in'
+            'status' => 'on-time',
+            'type' => 'in',
         ]);
     }
 
@@ -25,7 +25,7 @@ class TimeInUserActionTest extends TestCase
         $this->travelToWeekday();
         $user = $this->newUser();
         AttendanceLog::factory()->timeIn()->create(['user_id' => $user->id, 'created_at' => now()]);
-        $this->expectExceptionMessage("You have already time-in today");
+        $this->expectExceptionMessage('You have already time-in today');
         app(TimeInUserAction::class)($user);
     }
 
@@ -36,8 +36,8 @@ class TimeInUserActionTest extends TestCase
         app(TimeInUserAction::class)($user);
         $this->assertDatabaseHas('attendance_logs', [
             'user_id' => $user->id,
-            'status'=> 'late',
-            'type' => 'in'
+            'status' => 'late',
+            'type' => 'in',
         ]);
     }
 
@@ -53,10 +53,10 @@ class TimeInUserActionTest extends TestCase
 
         $this->assertDatabaseHas('attendance_logs', [
             'user_id' => $user->id,
-            'status'=> 'on-time',
+            'status' => 'on-time',
             'type' => 'in',
-            'date' =>$timeNow->toDateString(),
-            'time' => $timeNow->toTimeString()
+            'date' => $timeNow->toDateString(),
+            'time' => $timeNow->toTimeString(),
         ]);
     }
 }

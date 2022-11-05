@@ -11,7 +11,7 @@ class LogUserAttendanceAction
     {
         $time = $attendanceLogDto->time ?? Carbon::now();
         $attendanceLogDto->user->attendance()->create([
-            'type'  => $attendanceLogDto->type->value,
+            'type' => $attendanceLogDto->type->value,
             'status' => $attendanceLogDto->status->value,
             'date' => $time->toDateString(),
             'time' => $time->toTimeString(),

@@ -16,8 +16,8 @@ class TimeOutUserActionTest extends TestCase
         app(TimeOutUserAction::class)($user);
         $this->assertDatabaseHas('attendance_logs', [
             'user_id' => $user->id,
-            'status'=> 'on-time',
-            'type' => 'out'
+            'status' => 'on-time',
+            'type' => 'out',
         ]);
     }
 
@@ -27,7 +27,7 @@ class TimeOutUserActionTest extends TestCase
         AttendanceLog::factory()->timeIn()->create(['user_id' => $user->id, 'created_at' => now()->setHour(9)->setMinute(30)]);
         $this->travelTo(now()->setHour(9)->setMinute(0));
         AttendanceLog::factory()->timeOut()->create(['user_id' => $user->id, 'created_at' => now()]);
-        $this->expectExceptionMessage("You have already time-out today");
+        $this->expectExceptionMessage('You have already time-out today');
         app(TimeOutUserAction::class)($user);
     }
 
@@ -39,8 +39,8 @@ class TimeOutUserActionTest extends TestCase
         app(TimeOutUserAction::class)($user);
         $this->assertDatabaseHas('attendance_logs', [
             'user_id' => $user->id,
-            'status'=> 'under-time',
-            'type' => 'out'
+            'status' => 'under-time',
+            'type' => 'out',
         ]);
     }
 
@@ -57,10 +57,10 @@ class TimeOutUserActionTest extends TestCase
 
         $this->assertDatabaseHas('attendance_logs', [
             'user_id' => $user->id,
-            'status'=> 'on-time',
+            'status' => 'on-time',
             'type' => 'in',
-            'date' =>$timeNow->toDateString(),
-            'time' => $timeNow->toTimeString()
+            'date' => $timeNow->toDateString(),
+            'time' => $timeNow->toTimeString(),
         ]);
     }
 }
