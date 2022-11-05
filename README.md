@@ -1,7 +1,7 @@
 # Attendance package for Laravel applications.
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/ianvizarra/attendance.svg?style=flat-square)](https://packagist.org/packages/ianvizarra/attendance)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/ianvizarra/attendance/run-tests?label=tests)](https://github.com/ianvizarra/attendance/actions?query=workflow%3Atests+branch%3Amaster)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/ianvizarra/attendance/tests?label=tests)](https://github.com/ianvizarra/attendance/actions?query=workflow%3Atests+branch%3Amaster)
 [![Total Downloads](https://img.shields.io/packagist/dt/ianvizarra/attendance.svg?style=flat-square)](https://packagist.org/packages/ianvizarra/attendance)
 
 Add Attendance feature with ease to your laravel application.
