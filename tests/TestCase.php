@@ -64,13 +64,7 @@ abstract class TestCase extends Orchestra
             $table->timestamps();
             $table->softDeletes();
         });
-
-        \Schema::create('tasks', function ($table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->integer('team_id');
-            $table->timestamps();
-        });
+        
     }
 
     protected function loadEnvironmentVariables()
