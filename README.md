@@ -103,7 +103,7 @@ use Ianvizarra\Attendance\Facades\Attendance;
 ]);
  
  // manually set the user other than the logged-in user
- Attendance::setUser($user)->timeIn())->timeIn();
+ Attendance::setUser($user)->timeIn();
  
  // get the time in status
  Attendance::timeInStatus(); // on-time, late
