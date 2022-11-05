@@ -12,7 +12,7 @@ class AttendanceTest extends TestCase
     {
         $user = $this->newUser();
         auth()->login($user);
-        $this->travelTo(now()->setHour(9)->setMinute(0));
+        $this->travelToWeekday(9, 30);
         $status = Attendance::timeInStatus();
         $this->assertEquals('on-time', $status);
     }
@@ -21,7 +21,7 @@ class AttendanceTest extends TestCase
     {
         $user = $this->newUser();
         auth()->login($user);
-        $this->travelTo(now()->setHour(9)->setMinute(32));
+        $this->travelToWeekday(9, 32);
         $status = Attendance::timeInStatus();
         $this->assertEquals('late', $status);
     }
@@ -30,8 +30,8 @@ class AttendanceTest extends TestCase
     {
         $user = $this->newUser();
         auth()->login($user);
+        $this->travelToWeekday(17, 0);
         AttendanceLog::factory()->timeIn()->yesterdayMorning()->create(['user_id' => $user->id]);
-        $this->travelTo(now()->setHour(17)->setMinute(0));
         $status = Attendance::timeOutStatus();
         $this->assertEquals('on-time', $status);
     }
@@ -41,7 +41,7 @@ class AttendanceTest extends TestCase
         $user = $this->newUser();
         auth()->login($user);
         AttendanceLog::factory()->timeIn()->lateThisMorning()->create(['user_id' => $user->id]);
-        $this->travelTo(now()->setHour(16)->setMinute(59));
+        $this->travelToWeekday(16, 59);
         $status = Attendance::timeOutStatus();
         $this->assertEquals('under-time', $status);
     }
@@ -50,15 +50,15 @@ class AttendanceTest extends TestCase
     {
         $user = $this->newUser();
         auth()->login($user);
+        $this->travelToWeekday(17, 0);
         AttendanceLog::factory()->timeIn()->lateThisMorning()->create(['user_id' => $user->id]);
-        $this->travelTo(now()->setHour(17)->setMinute(0));
         $status = Attendance::timeOutStatus();
         $this->assertEquals('under-time', $status);
     }
 
     public function test_it_should_time_in_on_time()
     {
-        $this->travelTo(now()->setHour(9)->setMinute(0));
+        $this->travelToWeekday();
         $user = $this->newUser();
         auth()->login($user);
         Attendance::timeIn();
@@ -71,7 +71,7 @@ class AttendanceTest extends TestCase
 
     public function test_it_should_overwrite_schedule_config()
     {
-        $this->travelTo(now()->setHour(8)->setMinute(0));
+        $this->travelToWeekday(8, 0);
 
         $user = $this->newUser();
         auth()->login($user);
@@ -90,7 +90,7 @@ class AttendanceTest extends TestCase
 
     public function test_it_should_time_in_late_with_overwriten_schedule_config()
     {
-        $this->travelTo(now()->setHour(9)->setMinute(0));
+        $this->travelToWeekday();
 
         $user = $this->newUser();
         auth()->login($user);
@@ -112,8 +112,8 @@ class AttendanceTest extends TestCase
         $user = $this->newUser();
         auth()->login($user);
 
+        $this->travelToWeekday(16);
         AttendanceLog::factory()->timeIn()->thisMorning(8)->create(['user_id' => $user->id]);
-        $this->travelTo(now()->setHour(16)->setMinute(0));
 
         Attendance::timeOut(now(), [
             'timeIn' => 8,
@@ -131,7 +131,7 @@ class AttendanceTest extends TestCase
     public function test_it_should_set_user()
     {
         $user = $this->newUser();
-        $this->travelTo(now()->setHour(9)->setMinute(0));
+        $this->travelToWeekday();
         Attendance::setUser($user)->timeIn();
         $this->assertDatabaseHas('attendance_logs', [
             'user_id' => $user->id,
@@ -142,13 +142,13 @@ class AttendanceTest extends TestCase
 
     public function test_it_should_check_work_day()
     {
-        $this->travelTo(now()->setMonth(11)->setDay(2)->setYear(2022));
+        $this->travelToWeekday();
         $this->assertTrue(Attendance::isWorkDay());
     }
 
     public function test_it_should_check_work_day_with_custom_config()
     {
-        $this->travelTo(now()->setMonth(11)->setDay(6)->setYear(2022)); // Sunday
+        $this->travelToWeekend();
         $this->assertTrue(Attendance::isWorkDay(now(), [
             'timeIn' => 8,
             'timeOut' => 16,
@@ -164,14 +164,14 @@ class AttendanceTest extends TestCase
     {
         $user = $this->newUser();
         auth()->login($user);
-        $this->travelTo(now()->setMonth(11)->setDay(6)->setYear(2022)); // Sunday
+        $this->travelToWeekend();
         $this->expectExceptionMessage("It's your day-off");
         Attendance::timeIn(now());
     }
 
     public function test_it_should_check_off_day()
     {
-        $this->travelTo(now()->setMonth(11)->setDay(6));
+        $this->travelToWeekend();
         $this->assertTrue(Attendance::isOffDay());
     }
 }

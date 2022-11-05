@@ -2,6 +2,7 @@
 
 namespace Ianvizarra\Attendance\Tests;
 
+use Carbon\Carbon;
 use Dotenv\Dotenv;
 use Ianvizarra\Attendance\AttendanceServiceProvider;
 use Ianvizarra\Attendance\Contracts\CanLogAttendance;
@@ -94,5 +95,15 @@ abstract class TestCase extends Orchestra
         return [
             'Attendance' => Attendance::class,
         ];
+    }
+
+    public function travelToWeekday($hour = 9, $minute = 0): void
+    {
+        $this->travelTo(Carbon::create(2022, 1, 3)->setHour($hour)->setMinute($minute));
+    }
+
+    public function travelToWeekend($hour = 9, $minute = 0): void
+    {
+        $this->travelTo(Carbon::create(2022, 1, 1)->setHour($hour)->setMinute($minute));
     }
 }
