@@ -1,10 +1,11 @@
 {
     "name": "ianvizarra/attendance",
-    "description": "Attendance package for laravel application.",
+    "description": "Attendance package for Laravel application.",
     "keywords": [
         "ianvizarra",
         "laravel",
-        "attendance"
+        "attendance",
+        "package"
     ],
     "homepage": "https://github.com/ianvizarra/attendance",
     "license": "MIT",
