@@ -36,13 +36,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Ianvizarra\\Attendance\\": "src",
-            "Ianvizarra\\Attendance\\Database\\Factories\\": "database/factories"
+            "Ianvizarra\\Attendance\\": "src/",
+            "Ianvizarra\\Attendance\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Ianvizarra\\Attendance\\Tests\\": "tests"
+            "Ianvizarra\\Attendance\\Tests\\": "tests/"
         }
     },
     "scripts": {

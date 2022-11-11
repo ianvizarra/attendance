@@ -64,7 +64,7 @@ abstract class TestCase extends Orchestra
             $table->timestamps();
             $table->softDeletes();
         });
-        
+
     }
 
     protected function loadEnvironmentVariables()
